@@ -47,6 +47,7 @@ inline List<T>::List()
 template<typename T>
 inline List<T>::List(const List<T>& other)
 {
+	initialize();
 	m_first = other.m_first;
 	m_last = other.m_last;
 	m_nodeCount = other.m_nodeCount;
@@ -67,8 +68,15 @@ inline List<T>::~List()
 template<typename T>
 inline void List<T>::destroy()
 {
-	for (Iterator<T> iter = begin(); iter.operator* != nullptr; iter++)
-		delete iter.operator*;
+	Node<T>* currentNode = m_first;
+	Node<T>* nextNode;
+	for (int i = 0; i < m_nodeCount; i++) {
+		nextNode = currentNode->next;
+		delete currentNode;
+		currentNode = nextNode;
+	}
+
+	initialize();
 }
 
 /// <summary>
@@ -149,21 +157,46 @@ template<typename T>
 inline bool List<T>::insert(const T& value, int index)
 {
 	bool nodeInserted = false;
-	Iterator<T> iter = begin();
 	Node<T>* newNode = new Node<T>(value);
+	Node<T>* currentNode = m_first;
+	// If the index is not within the current length...
 	if (index >= getLength())
+		// ...it returns false.
 		return nodeInserted;
 
-	for (int i = 0; i < index; i++)
-		iter = iter++;
+	if (index == 0)
+		pushFront;
 
+	// Iterates through the list of node until it reaches the specified index.
+	for (int i = 0; i < index; i++)
+		currentNode = currentNode->next;
+		
+	// Insert the new node into the space where the current node was.
+	newNode->next = currentNode;
+	newNode->previous = currentNode->previous;
+	currentNode->previous->next = newNode;
+	currentNode->previous = newNode;
+
+	m_nodeCount++;
 	return nodeInserted;
 }
 
 template<typename T>
 inline bool List<T>::remove(const T& value)
 {
-	return false;
+	bool objectRemoved = false;
+	Node<T>* nodeToRemove = m_first;
+	for (Iterator<T> iter = begin(); iter != nullptr; iter++) {
+		if (iter.operator* == value) {
+			nodeToRemove->next->previous = nodeToRemove->previous;
+			nodeToRemove->previous->next = nodeToRemove->next;
+			delete nodeToRemove;
+			break;
+		}
+		nodeToRemove = nodeToRemove->next;
+	}
+
+	return objectRemoved;
 }
 
 /// <summary>
@@ -176,9 +209,17 @@ inline void List<T>::print() const
 		std::cout << iter.operator* << std::endl;
 }
 
+/// <summary>
+/// Sets the first and last node to nothing.
+/// </summary>
 template<typename T>
 inline void List<T>::initialize()
 {
+	m_first = new Node<T>();
+	m_last = new Node<T>();
+	m_nodeCount = 2;
+	m_first->next = m_last;
+	m_last->previous = m_first;
 }
 
 /// <summary>
@@ -187,9 +228,7 @@ inline void List<T>::initialize()
 template<typename T>
 inline bool List<T>::isEmpty() const
 {
-	Iterator<T> iter = begin();
-
-	return (iter == nullptr);
+	return (begin() == nullptr && end() == nullptr && m_nodeCount == 0);
 }
 
 /// <summary>
