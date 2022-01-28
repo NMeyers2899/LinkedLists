@@ -43,9 +43,9 @@ template<typename T>
 inline Iterator<T> Iterator<T>::operator++()
 {
 	if (m_current->next == nullptr)
-		return Iterator<T>(m_current = m_current->next);
+		return Iterator<T>(m_current);
 	else
-		return m_current;
+		return Iterator<T>(m_current = m_current->next);
 }
 
 /// <summary>
@@ -55,9 +55,9 @@ template<typename T>
 inline Iterator<T> Iterator<T>::operator--()
 {
 	if (m_current->previous == nullptr)
-		return Iterator<T>(m_current = m_current->previous);
+		return Iterator<T>(m_current);
 	else
-		return m_current;
+		return Iterator<T>(m_current = m_current->previous);
 }
 
 /// <summary>

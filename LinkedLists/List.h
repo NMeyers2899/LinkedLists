@@ -120,6 +120,8 @@ inline void List<T>::pushFront(const T& value)
 	m_first = newFirst;
 	// Changes the original m_first's previous to the new first.
 	newFirst->next->previous = newFirst;
+
+	m_nodeCount++;
 }
 
 /// <summary>
@@ -136,4 +138,85 @@ inline void List<T>::pushBack(const T& value)
 	m_last = newLast;
 	// Changes the original m_last's next to the new last.
 	newLast->previous->next = newLast;
+
+	m_nodeCount++;
+}
+
+/// <summary>
+/// Inserts a given node into the given index if that index is valid.
+/// </summary>
+template<typename T>
+inline bool List<T>::insert(const T& value, int index)
+{
+	bool nodeInserted = false;
+	Iterator<T> iter = begin();
+	Node<T>* newNode = new Node<T>(value);
+	if (index >= getLength())
+		return nodeInserted;
+
+	for (int i = 0; i < index; i++)
+		iter = iter++;
+
+	return nodeInserted;
+}
+
+template<typename T>
+inline bool List<T>::remove(const T& value)
+{
+	return false;
+}
+
+/// <summary>
+/// Prints each element in the linked list.
+/// </summary>
+template<typename T>
+inline void List<T>::print() const
+{
+	for (Iterator<T> iter = begin(); iter != nullptr; iter++)
+		std::cout << iter.operator* << std::endl;
+}
+
+template<typename T>
+inline void List<T>::initialize()
+{
+}
+
+/// <summary>
+/// Finds wether or not the list has any elements.
+/// </summary>
+template<typename T>
+inline bool List<T>::isEmpty() const
+{
+	Iterator<T> iter = begin();
+
+	return (iter == nullptr);
+}
+
+/// <summary>
+/// Finds the data at a certain index in the list.
+/// </summary>
+template<typename T>
+inline bool List<T>::getData(Iterator<T>& iter, int index)
+{
+	return false;
+}
+
+/// <summary>
+/// Finds the number of nodes in the list.
+/// </summary>
+template<typename T>
+inline int List<T>::getLength() const
+{
+	return m_nodeCount;
+}
+
+template<typename T>
+inline List<T>& List<T>::operator=(const List<T>& otherList) const
+{
+	// TODO: insert return statement here
+}
+
+template<typename T>
+inline void List<T>::sort()
+{
 }
