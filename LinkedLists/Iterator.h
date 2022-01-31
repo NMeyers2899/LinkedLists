@@ -77,6 +77,8 @@ inline const bool Iterator<T>::operator==(const Iterator<T>& iter)
 template<typename T>
 inline const bool Iterator<T>::operator!=(const Iterator<T> iter)
 {
+	if (iter.m_current == nullptr)
+		return false;
 	return m_current->data != iter.m_current->data ||
 	m_current->next != iter.m_current->next ||
 	m_current->previous != iter.m_current->previous;

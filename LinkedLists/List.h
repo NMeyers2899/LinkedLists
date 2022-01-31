@@ -103,11 +103,12 @@ template<typename T>
 inline bool List<T>::contains(const T& object) const
 {
 	bool itemFound = false;
-	for (Iterator<T> iter = begin(); iter != nullptr; ++iter) {
-		if (*iter == object) {
+	Node<T>* currentNode = m_first;
+	for (int i = 0; i < m_nodeCount; i++) {
+		if (currentNode->data == object) {
 			itemFound = true;
-			return itemFound;
 		}
+		currentNode = currentNode->next;
 	}
 
 	return itemFound;
@@ -219,11 +220,9 @@ template<typename T>
 inline void List<T>::print() const
 {
 	Node<T>* currentNode = m_first;
-	Node<T>* nextNode;
 	for (int i = 0; i < m_nodeCount; i++) {
 		std::cout << currentNode->data << std::endl;
-		nextNode = currentNode->next;
-		currentNode = nextNode;
+		currentNode = currentNode->next;
 	}
 }
 
@@ -259,8 +258,8 @@ inline bool List<T>::getData(Iterator<T>& iter, int index)
 	Iterator<T> tempIter = begin();
 	for (int i = 0; i < index; i++) {
 		if (tempIter == iter)
-			iter++;
-		tempIter++;
+			++iter;
+		++tempIter;
 	}
 
 	return true;
@@ -283,6 +282,6 @@ inline List<T>& List<T>::operator=(const List<T>& otherList) const
 
 template<typename T>
 inline void List<T>::sort()
-{
+{	
 	
 }
