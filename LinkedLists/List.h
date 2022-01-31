@@ -21,7 +21,7 @@ public:
 	bool isEmpty() const;
 	bool getData(Iterator<T>& iter, int index);
 	int getLength() const;
-	List<T>& operator=(const List<T>& otherList) const;
+	const List<T>& operator=(const List<T>& otherList);
 	void sort();
 
 private:
@@ -45,10 +45,7 @@ inline List<T>::List()
 template<typename T>
 inline List<T>::List(const List<T>& other)
 {
-	initialize();
-	m_first = other.m_first;
-	m_last = other.m_last;
-	m_nodeCount = other.m_nodeCount;
+	*this = other;
 }
 
 /// <summary>
@@ -74,7 +71,6 @@ inline void List<T>::destroy()
 		m_nodeCount--;
 		currentNode = nextNode;
 	}
-
 	initialize();
 }
 
@@ -171,10 +167,14 @@ inline bool List<T>::insert(const T& value, int index)
 		// ...it returns false.
 		return nodeInserted;
 
-	if (index == 0)
+	if (index == 0) {
 		pushFront(value);
-	else if (index == m_nodeCount)
+		return true;
+	}
+	else if (index == m_nodeCount) {
 		pushBack(value);
+		return true;
+	}
 
 	// Iterates through the list of node until it reaches the specified index.
 	for (int i = 0; i < index; i++)
@@ -275,13 +275,32 @@ inline int List<T>::getLength() const
 }
 
 template<typename T>
-inline List<T>& List<T>::operator=(const List<T>& otherList) const
+inline const List<T>& List<T>::operator=(const List<T>& otherList)
 {
-	
+	destroy();
+	Node<T>* currentNode = otherList.m_first;
+	for (int i = 0; i < otherList.m_nodeCount; i++) {
+		insert(currentNode->data, i);
+		currentNode = currentNode->next;
+	}
+	return *this;
 }
 
 template<typename T>
 inline void List<T>::sort()
 {	
-	
+	Node<T>* currentNode = m_first;
+	Node<T>* tempNode = new Node<T>();
+
+	for (int i = 0; i < m_nodeCount - 1; i++) {
+		currentNode = m_first;
+		for (int j = 0; j < m_nodeCount - 1; j++) {
+			if (currentNode->data > currentNode->next->data) {
+				tempNode->data = currentNode->next->data;
+				currentNode->next->data = currentNode->data;
+				currentNode->data = tempNode->data;
+			}
+			currentNode = currentNode->next;
+		}
+	}
 }

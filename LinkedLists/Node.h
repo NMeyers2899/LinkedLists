@@ -17,7 +17,7 @@ public:
 template<typename T>
 inline Node<T>::Node()
 {
-	data = nullptr;
+	data = 0;
 	next = nullptr;
 	previous = nullptr;
 }
