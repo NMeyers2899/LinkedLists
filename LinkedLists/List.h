@@ -163,15 +163,18 @@ inline bool List<T>::insert(const T& value, int index)
 	Node<T>* newNode = new Node<T>(value);
 	Node<T>* currentNode = m_first;
 	// If the index is not within the current length...
-	if (index >= getLength())
+	if (index > getLength())
 		// ...it returns false.
 		return nodeInserted;
-
+	// If the index is zero...
 	if (index == 0) {
+		// ...it pushes the value to the front of the list.
 		pushFront(value);
 		return true;
 	}
+	// If the index is the same as the node count...
 	else if (index == m_nodeCount) {
+		// ...it pushes the value to the back of the list.
 		pushBack(value);
 		return true;
 	}
@@ -197,12 +200,25 @@ inline bool List<T>::remove(const T& value)
 	Node<T>* nodeToRemove = m_first;
 	// Iteratates through the list.
 	for (int i = 0; i < m_nodeCount; i++) {
-		// If the data in the node equals the value we're looking for...
+		// If the data in the node equals the value change the elements around it
+		// as follows.
 		if (nodeToRemove->data == value) {
-			// ...change the previous and next of the node to the next and previous
-			// nodes in the list.
-			nodeToRemove->next->previous = nodeToRemove->previous;
-			nodeToRemove->previous->next = nodeToRemove->next;
+			// If the node is not the last index...
+			if (nodeToRemove->next != nullptr)
+				// ...set its next's previous to its own previous.
+				nodeToRemove->next->previous = nodeToRemove->previous;
+			// If it is the last element...
+			else
+				// ...set the last element in the list to its previous.
+				m_last = nodeToRemove->previous;
+			// If the node is not the first element in the list...
+			if (nodeToRemove->previous != nullptr)
+				// ... set its previous' next to its own next.
+				nodeToRemove->previous->next = nodeToRemove->next;
+			// If it is the first element in the list...
+			else
+				// ...set it's next to become the first element.
+				m_first = nodeToRemove->next;
 			delete nodeToRemove;
 			m_nodeCount--;
 			break;
@@ -238,12 +254,12 @@ inline void List<T>::initialize()
 }
 
 /// <summary>
-/// Finds wether or not the list has any elements.
+/// Finds whether or not the list has any elements.
 /// </summary>
 template<typename T>
 inline bool List<T>::isEmpty() const
 {
-	return (begin() == nullptr && end() == nullptr && m_nodeCount == 0);
+	return (m_first == nullptr && m_last == nullptr && m_nodeCount == 0);
 }
 
 /// <summary>
