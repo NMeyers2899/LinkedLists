@@ -118,7 +118,8 @@ inline void List<T>::destroy()
 {
 	Node<T>* currentNode = m_first;
 	Node<T>* nextNode;
-	for (int i = 0; i < m_nodeCount; i++) {
+	for (int i = 0; i < m_nodeCount; i++) 
+	{
 		nextNode = currentNode->next;
 		delete currentNode;
 		m_nodeCount--;
@@ -146,8 +147,10 @@ inline bool List<T>::contains(const T& object) const
 {
 	bool itemFound = false;
 	Node<T>* currentNode = m_first;
-	for (int i = 0; i < m_nodeCount; i++) {
-		if (currentNode->data == object) {
+	for (int i = 0; i < m_nodeCount; i++) 
+	{
+		if (currentNode->data == object) 
+		{
 			itemFound = true;
 		}
 		currentNode = currentNode->next;
@@ -204,13 +207,15 @@ inline bool List<T>::insert(const T& value, int index)
 		// ...it returns false.
 		return nodeInserted;
 	// If the index is zero...
-	if (index == 0) {
+	if (index == 0) 
+	{
 		// ...it pushes the value to the front of the list.
 		pushFront(value);
 		return true;
 	}
 	// If the index is the same as the node count...
-	else if (index == m_nodeCount) {
+	else if (index == m_nodeCount) 
+	{
 		// ...it pushes the value to the back of the list.
 		pushBack(value);
 		return true;
@@ -236,10 +241,12 @@ inline bool List<T>::remove(const T& value)
 	bool objectRemoved = false;
 	Node<T>* nodeToRemove = m_first;
 	// Iteratates through the list.
-	for (int i = 0; i < m_nodeCount; i++) {
+	for (int i = 0; i < m_nodeCount; i++) 
+	{
 		// If the data in the node equals the value change the elements around it
 		// as follows.
-		if (nodeToRemove->data == value) {
+		if (nodeToRemove->data == value) 
+		{
 			// If the node is not the last index...
 			if (nodeToRemove->next != nullptr)
 				// ...set its next's previous to its own previous.
@@ -270,7 +277,8 @@ template<typename T>
 inline void List<T>::print() const
 {
 	Node<T>* currentNode = m_first;
-	for (int i = 0; i < m_nodeCount; i++) {
+	for (int i = 0; i < m_nodeCount; i++) 
+	{
 		std::cout << currentNode->data << std::endl;
 		currentNode = currentNode->next;
 	}
@@ -297,7 +305,8 @@ inline bool List<T>::getData(Iterator<T>& iter, int index)
 		return false;
 
 	Iterator<T> tempIter = begin();
-	for (int i = 0; i < index; i++) {
+	for (int i = 0; i < index; i++) 
+	{
 		if (tempIter == iter)
 			++iter;
 		++tempIter;
@@ -315,9 +324,12 @@ inline int List<T>::getLength() const
 template<typename T>
 inline const List<T>& List<T>::operator=(const List<T>& otherList)
 {
+	// Destroy's the list.
 	destroy();
 	Node<T>* currentNode = otherList.m_first;
-	for (int i = 0; i < otherList.m_nodeCount; i++) {
+	for (int i = 0; i < otherList.m_nodeCount; i++)
+	{
+		// Creates a copy of the data in the nodes of other and inserts them into this list.
 		insert(currentNode->data, i);
 		currentNode = currentNode->next;
 	}
@@ -330,10 +342,13 @@ inline void List<T>::sort()
 	Node<T>* currentNode = m_first;
 	Node<T>* tempNode = new Node<T>();
 
-	for (int i = 0; i < m_nodeCount - 1; i++) {
+	for (int i = 0; i < m_nodeCount - 1; i++) 
+	{
 		currentNode = m_first;
-		for (int j = 0; j < m_nodeCount - 1; j++) {
-			if (currentNode->data > currentNode->next->data) {
+		for (int j = 0; j < m_nodeCount - 1; j++) 
+		{
+			if (currentNode->data > currentNode->next->data) 
+			{
 				tempNode->data = currentNode->next->data;
 				currentNode->next->data = currentNode->data;
 				currentNode->data = tempNode->data;

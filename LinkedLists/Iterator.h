@@ -19,7 +19,7 @@ private:
 };
 
 /// <summary>
-///  Creates a new iterator with no current node.
+/// Creates a new iterator with no current node.
 /// </summary>
 template<typename T>
 inline Iterator<T>::Iterator()
