@@ -5,21 +5,86 @@ template <typename T>
 class List
 {
 public:
+	/// <summary>
+	/// Creates a new list with zero elements inside.
+	/// </summary>
 	List();
+
+	/// <summary>
+	/// Creates a new list using the same elements from another list.
+	/// </summary>
 	List(const List<T>& other);
+
+	/// <summary>
+	/// On deletion, calls the list's destroy function.
+	/// </summary>
 	~List();
+
+	/// <summary>
+	/// Deletes all elements of the list.
+	/// </summary>
 	void destroy();
+
+	/// <summary>
+	/// Creates a new iterator that points to the first node in the list.
+	/// </summary>
 	Iterator<T> begin() const;
+
+	/// <summary>
+	/// Creates a new iterator that points to the last node in the list.
+	/// </summary>
 	Iterator<T> end() const;
+
+	/// <summary>
+	/// Returns whether or not a specific item could be found in the list.
+	/// </summary>
 	bool contains(const T& object) const;
+
+	/// <summary>
+	/// Adds a node to the front of the list.
+	/// </summary>
 	void pushFront(const T& value);
+
+	/// <summary>
+	/// Adds a new node to the end of the list.
+	/// </summary>
 	void pushBack(const T& value);
+
+	/// <summary>
+	/// Inserts a given node into the given index if that index is valid.
+	/// </summary>
 	bool insert(const T& value, int index);
+
+	/// <summary>
+	/// Tries to remove the node of the given value from the list.
+	/// </summary>
+	/// <param name="value"></param>
+	/// <returns></returns>
 	bool remove(const T& value);
+
+	/// <summary>
+	/// Prints each element in the linked list.
+	/// </summary>
 	void print() const;
+
+	/// <summary>
+	/// Sets the first and last node to nothing.
+	/// </summary>
 	void initialize();
+
+	/// <summary>
+	/// Finds whether or not the list has any elements.
+	/// </summary>
 	bool isEmpty() const;
+
+	/// <summary>
+	/// Sets the iterator to point at the given index.
+	/// </summary>
 	bool getData(Iterator<T>& iter, int index);
+
+	/// <summary>
+	/// Finds the number of nodes in the list.
+	/// </summary>
 	int getLength() const;
 	const List<T>& operator=(const List<T>& otherList);
 	void sort();
@@ -30,36 +95,24 @@ private:
 	int m_nodeCount;
 };
 
-/// <summary>
-/// Creates a new list with zero elements inside.
-/// </summary>
 template<typename T>
 inline List<T>::List()
 {
 	initialize();
 }
 
-/// <summary>
-/// Creates a new list using the same elements from another list.
-/// </summary>
 template<typename T>
 inline List<T>::List(const List<T>& other)
 {
 	*this = other;
 }
 
-/// <summary>
-/// On deletion, calls the list's destroy function.
-/// </summary>
 template<typename T>
 inline List<T>::~List()
 {
 	destroy();
 }
 
-/// <summary>
-/// Deletes all elements of the list.
-/// </summary>
 template<typename T>
 inline void List<T>::destroy()
 {
@@ -74,27 +127,20 @@ inline void List<T>::destroy()
 	initialize();
 }
 
-/// <summary>
-/// Creates a new iterator that points to the first node in the list.
-/// </summary>
+
 template<typename T>
 inline Iterator<T> List<T>::begin() const
 {
 	return Iterator<T>(m_first);
 }
 
-/// <summary>
-/// Creates a new iterator that points to the last node in the list.
-/// </summary>
+
 template<typename T>
 inline Iterator<T> List<T>::end() const
 {
 	return Iterator<T>(m_last);
 }
 
-/// <summary>
-/// Returns whether or not a specific item could be found in the list.
-/// </summary>
 template<typename T>
 inline bool List<T>::contains(const T& object) const
 {
@@ -110,9 +156,6 @@ inline bool List<T>::contains(const T& object) const
 	return itemFound;
 }
 
-/// <summary>
-/// Adds a node to the front of the list.
-/// </summary>
 template<typename T>
 inline void List<T>::pushFront(const T& value)
 {
@@ -132,9 +175,6 @@ inline void List<T>::pushFront(const T& value)
 	m_nodeCount++;
 }
 
-/// <summary>
-/// Adds a new node to the end of the list.
-/// </summary>
 template<typename T>
 inline void List<T>::pushBack(const T& value)
 {
@@ -153,9 +193,6 @@ inline void List<T>::pushBack(const T& value)
 	m_nodeCount++;
 }
 
-/// <summary>
-/// Inserts a given node into the given index if that index is valid.
-/// </summary>
 template<typename T>
 inline bool List<T>::insert(const T& value, int index)
 {
@@ -229,9 +266,6 @@ inline bool List<T>::remove(const T& value)
 	return objectRemoved;
 }
 
-/// <summary>
-/// Prints each element in the linked list.
-/// </summary>
 template<typename T>
 inline void List<T>::print() const
 {
@@ -242,9 +276,6 @@ inline void List<T>::print() const
 	}
 }
 
-/// <summary>
-/// Sets the first and last node to nothing.
-/// </summary>
 template<typename T>
 inline void List<T>::initialize()
 {
@@ -253,18 +284,12 @@ inline void List<T>::initialize()
 	m_nodeCount = 0;
 }
 
-/// <summary>
-/// Finds whether or not the list has any elements.
-/// </summary>
 template<typename T>
 inline bool List<T>::isEmpty() const
 {
 	return (m_first == nullptr && m_last == nullptr && m_nodeCount == 0);
 }
 
-/// <summary>
-/// Sets the iterator to point at the given index.
-/// </summary>
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
@@ -281,9 +306,6 @@ inline bool List<T>::getData(Iterator<T>& iter, int index)
 	return true;
 }
 
-/// <summary>
-/// Finds the number of nodes in the list.
-/// </summary>
 template<typename T>
 inline int List<T>::getLength() const
 {
