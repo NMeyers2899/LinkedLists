@@ -58,8 +58,7 @@ public:
 	/// <summary>
 	/// Tries to remove the node of the given value from the list.
 	/// </summary>
-	/// <param name="value"></param>
-	/// <returns></returns>
+	/// <returns> Whether or not an element was removed. </returns>
 	bool remove(const T& value);
 
 	/// <summary>
@@ -86,7 +85,15 @@ public:
 	/// Finds the number of nodes in the list.
 	/// </summary>
 	int getLength() const;
+
+	/// <summary>
+	/// Sets this list equal to the given list.
+	/// </summary>
 	const List<T>& operator=(const List<T>& otherList);
+
+	/// <summary>
+	/// Sorts the list of elements using bubble sort.
+	/// </summary>
 	void sort();
 
 private:
@@ -118,11 +125,17 @@ inline void List<T>::destroy()
 {
 	Node<T>* currentNode = m_first;
 	Node<T>* nextNode;
-	for (int i = 0; i < m_nodeCount; i++) 
+
+	// For each element in the list, it will delete them.
+	for (int i = 0; i < getLength(); i++) 
 	{
+		// Set the nextNode to the currentNode's next.
 		nextNode = currentNode->next;
+		// Delete the currentNode.
 		delete currentNode;
+		// Decrement the node count.
 		m_nodeCount--;
+		// Set the currentNode equal to the nextNode.
 		currentNode = nextNode;
 	}
 	initialize();
@@ -145,18 +158,18 @@ inline Iterator<T> List<T>::end() const
 template<typename T>
 inline bool List<T>::contains(const T& object) const
 {
-	bool itemFound = false;
 	Node<T>* currentNode = m_first;
-	for (int i = 0; i < m_nodeCount; i++) 
+	for (int i = 0; i < getLength(); i++) 
 	{
+		// If the data inside the current node is equal to the given object...
 		if (currentNode->data == object) 
-		{
-			itemFound = true;
-		}
+			// ...return true.
+			return true;
+		// Otherwise, set the currentNode equal to its own next.
 		currentNode = currentNode->next;
 	}
 
-	return itemFound;
+	return false;
 }
 
 template<typename T>
@@ -203,7 +216,7 @@ inline bool List<T>::insert(const T& value, int index)
 	Node<T>* newNode = new Node<T>(value);
 	Node<T>* currentNode = m_first;
 	// If the index is not within the current length...
-	if (index > getLength())
+	if (index < getLength() || index > getLength())
 		// ...it returns false.
 		return nodeInserted;
 	// If the index is zero...
@@ -243,8 +256,7 @@ inline bool List<T>::remove(const T& value)
 	// Iteratates through the list.
 	for (int i = 0; i < m_nodeCount; i++) 
 	{
-		// If the data in the node equals the value change the elements around it
-		// as follows.
+		// If the data in the node equals the value change the elements around it as follows.
 		if (nodeToRemove->data == value) 
 		{
 			// If the node is not the last index...
@@ -301,13 +313,15 @@ inline bool List<T>::isEmpty() const
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
-	if (index > m_nodeCount)
+	if (index > getLength() || index < getLength())
 		return false;
 
 	Iterator<T> tempIter = begin();
 	for (int i = 0; i < index; i++) 
 	{
+		// As long as the tempIter and iter point to the same node...
 		if (tempIter == iter)
+			// ...iterate them both until they reach the given index.
 			++iter;
 		++tempIter;
 	}
@@ -327,7 +341,7 @@ inline const List<T>& List<T>::operator=(const List<T>& otherList)
 	// Destroy's the list.
 	destroy();
 	Node<T>* currentNode = otherList.m_first;
-	for (int i = 0; i < otherList.m_nodeCount; i++)
+	for (int i = 0; i < otherList.getLength(); i++)
 	{
 		// Creates a copy of the data in the nodes of other and inserts them into this list.
 		insert(currentNode->data, i);
@@ -342,13 +356,15 @@ inline void List<T>::sort()
 	Node<T>* currentNode = m_first;
 	Node<T>* tempNode = new Node<T>();
 
-	for (int i = 0; i < m_nodeCount - 1; i++) 
+	for (int i = 0; i < getLength() - 1; i++) 
 	{
 		currentNode = m_first;
-		for (int j = 0; j < m_nodeCount - 1; j++) 
+		for (int j = 0; j < getLength() - 1; j++) 
 		{
+			// If the data of the currentNode is less than the data of its next...
 			if (currentNode->data > currentNode->next->data) 
 			{
+				// ...swap the two.
 				tempNode->data = currentNode->next->data;
 				currentNode->next->data = currentNode->data;
 				currentNode->data = tempNode->data;
