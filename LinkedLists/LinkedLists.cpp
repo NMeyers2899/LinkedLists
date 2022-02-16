@@ -10,6 +10,8 @@ int main()
     list2.destroy();
     list2.insert(6, 0);
     list.destroy();
+    list2.remove(6);
+    list2.remove(6);
     list.print();
     list2.print();
 }
