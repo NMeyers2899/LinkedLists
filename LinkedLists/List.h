@@ -152,7 +152,7 @@ inline Iterator<T> List<T>::begin() const
 template<typename T>
 inline Iterator<T> List<T>::end() const
 {
-	return Iterator<T>(m_last);
+	return Iterator<T>(m_last->next);
 }
 
 template<typename T>

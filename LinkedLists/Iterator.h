@@ -60,7 +60,7 @@ template<typename T>
 inline Iterator<T> Iterator<T>::operator++()
 {
 	// If the iterator's current does not have a next...
-	if (m_current->next == nullptr)
+	if (m_current == nullptr)
 		// ...keep the iterator pointing at its current.
 		return Iterator<T>(m_current);
 	// If the iterator does have a next...
