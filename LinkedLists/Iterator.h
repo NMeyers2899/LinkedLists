@@ -94,7 +94,11 @@ inline const bool Iterator<T>::operator==(const Iterator<T>& iter)
 template<typename T>
 inline const bool Iterator<T>::operator!=(const Iterator<T> iter)
 {
-	// If the current is null...
+	// If the current is null xor the other's current is null...
+	if (m_current == nullptr ^ iter.m_current == nullptr)
+		// ...return true.
+		return true;
+	// If the other's current is null...
 	if (iter.m_current == nullptr)
 		// ...return false.
 		return false;
